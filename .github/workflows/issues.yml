@@ -1,0 +1,11 @@
+name: issues details
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  event-handle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print-context
+        run: echo '${{ github }}'
