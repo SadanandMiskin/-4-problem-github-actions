@@ -15,7 +15,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
+        
       - name: Build Artifact
         run: npm run build
 
@@ -27,6 +27,7 @@ jobs:
 
   deploy:
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: download artifact
         uses: actions/download-artifact@v7
