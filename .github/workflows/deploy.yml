@@ -3,7 +3,7 @@ name: Deploy project
 on: 
   push:
     branches:
-      - main
+      - main 
   # push:
   # workflow_dispatch:
   # pull_request:
