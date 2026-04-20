@@ -59,13 +59,13 @@ jobs:
           node-version: '20'
       
       - name: Cache npm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v7
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: build-files
           path: ./deploy
