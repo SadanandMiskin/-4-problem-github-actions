@@ -74,7 +74,7 @@ jobs:
       - name: Get name of script file
         id: build_files
         # run: echo "d_script_file=$(find deploy -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
-        run: echo "script_file=$(find dist -type f -name '*.js' | head -n 1 | xargs basename)" >> $GITHUB_OUTPUT
+        run: echo "d_script_file=$(find dist -type f -name '*.js' | head -n 1 | xargs basename)" >> $GITHUB_OUTPUT
 
 
       - name: Debug outputs
