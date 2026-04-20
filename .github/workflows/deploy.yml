@@ -1,13 +1,13 @@
 name: Deploy project
 
 on: 
-  push:
+  # push:
   workflow_dispatch:
-  pull_request:
-    types:
-      opened
-    paths-ignore:
-      .github/**
+  # pull_request:
+  #   types:
+  #     opened
+  #   paths-ignore:
+  #     .github/**
 
 jobs:
   lint:
