@@ -31,7 +31,8 @@ jobs:
 
       - name: output prod js file
         id: build_output
-        run: echo "script_file=$(find dist -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
+        # run: echo "script_file=$(find dist -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
+        run: echo "script_file=$(find dist -type f -name '*.js' | head -n 1 | xargs basename)" >> $GITHUB_OUTPUT
 
       - name: Upload to artifact
         uses: actions/upload-artifact@v7
@@ -48,7 +49,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     outputs:
-      d_script_file: ${{ steps.build_files.outputs.d_script-file }}
+      d_script_file: ${{ steps.build_files.outputs.d_script_file }}
     steps:
       - name: Fetch repo
         uses: actions/checkout@v6
@@ -72,7 +73,14 @@ jobs:
         
       - name: Get name of script file
         id: build_files
-        run: echo "d_script-file=$(find deploy -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
+        # run: echo "d_script_file=$(find deploy -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
+        run: echo "script_file=$(find dist -type f -name '*.js' | head -n 1 | xargs basename)" >> $GITHUB_OUTPUT
+
+
+      - name: Debug outputs
+        run: |
+          echo "Build Output: ${{ needs.build.outputs.script_file }}"
+          echo "Deploy Output: ${{ steps.build_files.outputs.d_script_file }}"
 
       - name: Validate the script file and deploy
         if: ${{ needs.build.outputs.script_file == steps.build_files.outputs.d_script_file }}
