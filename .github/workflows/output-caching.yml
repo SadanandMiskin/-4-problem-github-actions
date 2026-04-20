@@ -1,0 +1,80 @@
+name: JOB output and Dependency caching
+on:
+  workflow_dispatch:
+    branches: main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      script_file: ${{ steps.build_output.outputs.script_file }}
+    steps:
+      - name: Fetch repo
+        uses: actions/checkout@v6
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build the project
+        run: npm run build
+
+      - name: output prod js file
+        id: build_output
+        run: echo "script_file=$(find dist -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
+
+      - name: Upload to artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: dist
+
+      - name: Testing the project
+        run: npm run test
+      # - name: Set Build output
+      #   id: build_output
+      #   run: echo "script-file="
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      d_script_file: ${{ steps.build_files.outputs.d_script-file }}
+    steps:
+      - name: Fetch repo
+        uses: actions/checkout@v6
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: ./deploy
+        
+      - name: Get name of script file
+        id: build_files
+        run: echo "d_script-file=$(find deploy -type f -name '*.js' -exec basename {} \;)" >> $GITHUB_OUTPUT
+
+      - name: Validate the script file and deploy
+        if: ${{ needs.build.outputs.script_file == steps.build_files.outputs.d_script_file }}
+        run: echo "deploying"
+
