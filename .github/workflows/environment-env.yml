@@ -1,0 +1,43 @@
+name: Environment and env
+on:
+  push:
+    branches:
+      - dev
+      - master
+
+jobs:
+  testing:
+    environment: testing # This will run on the environment testing created in repository settings and will only run if the branch is allowed 
+    # I have set 'main' branch to be allowed and 'dev' branch to be not allowed in the environment settings. So this job will only run for 'main' branch and will be skipped for 'dev' branch.
+    env:
+      NODE_ENV: ${{ secrets.NODE_ENV }} # This will be fetched from environment
+    
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: node-${{hashFiles('**/package-lock.json')}}
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build the project
+        run: npm run build
+
+      - name: Testing the project
+        run: npm run test
+
+      - name: print env
+        run: ${{ env.NODE_ENV }}
+  
+  
