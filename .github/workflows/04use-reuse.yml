@@ -29,4 +29,4 @@ jobs:
     needs: build
     uses: ./.github/workflows/04reuse.yml
     with:
-      artifact-name: dist_files
+      artifact_name: dist_files
