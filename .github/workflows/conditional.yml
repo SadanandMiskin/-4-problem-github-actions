@@ -26,7 +26,10 @@ jobs:
       
       - name: Upload test fail
         if: failure() && steps.run-tests.outcome == 'failure'
-        run: echo "uploading to test....."
+        uses: actions/upload-artifact@v7
+        with:
+          name: index-html
+          path: index.html
 
       - name: upload test success
         if: success() && steps.run-tests.outcome == 'success'
