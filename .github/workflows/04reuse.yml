@@ -4,6 +4,7 @@ on:
     inputs:
       artifact_name:
         description: the name of deployable artifacts
+        type: string
         required: false
         default: dist
       # required: true
