@@ -93,8 +93,8 @@ jobs:
 
   report:
     needs: [test, deploy, build]
+    if: failure()
     runs-on: ubuntu-latest
     steps:
       - name: report failure
-        if: failure()
         run: "failed"
