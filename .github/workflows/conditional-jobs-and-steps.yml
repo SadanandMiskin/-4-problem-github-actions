@@ -97,4 +97,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: report failure
-        run: "failed"
+        run: echo "failed"
