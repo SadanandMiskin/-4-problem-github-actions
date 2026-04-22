@@ -3,6 +3,9 @@ on:
   workflow_call:
     inputs:
       artifact_name:
+        description: the name of deployable artifacts
+        required: false
+        default: dist
       # required: true
 jobs:
   deploy:
