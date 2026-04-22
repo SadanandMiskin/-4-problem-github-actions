@@ -60,10 +60,12 @@ jobs:
         id: cache-build
         with:
           path: ~/.npm
-          key: node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        if: steps.cache-build.outputs.cache-hit != 'true'
+        # if: steps.cache-build.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build project
@@ -90,7 +92,7 @@ jobs:
 
 
   report:
-    needs: [test, deploy]
+    needs: [test, deploy, build]
     runs-on: ubuntu-latest
     steps:
       - name: report failure
