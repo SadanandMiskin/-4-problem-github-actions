@@ -25,9 +25,9 @@ jobs:
         run: npm run test
       
       - name: Upload test fail
-        if: steps.run-tests.outcome == 'failure'
+        if: failure() && steps.run-tests.outcome == 'failure'
         run: echo "uploading to test....."
 
       - name: upload test success
-        if: steps.run-tests.outcome == 'success'
+        if: success() && steps.run-tests.outcome == 'success'
         run: echo "success"
