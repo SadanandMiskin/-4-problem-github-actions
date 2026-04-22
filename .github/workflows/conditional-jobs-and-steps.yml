@@ -2,6 +2,7 @@
 
 name: conditional workflow
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
