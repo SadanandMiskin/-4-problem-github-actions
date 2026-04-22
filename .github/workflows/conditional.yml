@@ -3,7 +3,8 @@
 name: conditional workflow
 on:
   push:
-    - master
+    branches:
+      - master
 jobs:
   test:
     runs-on: ubuntu-latest
