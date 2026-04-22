@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       artifact_name:
-      required: true
+      # required: true
 jobs:
   deploy:
     runs-on: ubuntu-latest

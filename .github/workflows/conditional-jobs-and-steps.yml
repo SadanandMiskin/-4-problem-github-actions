@@ -3,9 +3,9 @@
 name: conditional workflow
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 jobs:
   test:
     runs-on: ubuntu-latest
