@@ -20,7 +20,9 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v7
-        key: node-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: ~/.npm
+          key: node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: npm ci
@@ -55,7 +57,9 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v7
-        key: node-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: ~/.npm
+          key: node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: npm ci
