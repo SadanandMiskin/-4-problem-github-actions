@@ -8,6 +8,7 @@ on:
       - master
 jobs:
   test:
+    ouput: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -57,11 +58,13 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v5
+        key: cache-build
         with:
           path: ~/.npm
           key: node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
+        if: steps.cache-build.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build project
