@@ -3,7 +3,7 @@
 name: conditional workflow
 on:
   push:
-    - main
+    - master
 jobs:
   test:
     runs-on: ubuntu-latest
