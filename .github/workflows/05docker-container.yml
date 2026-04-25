@@ -14,7 +14,7 @@ jobs:
       image: node:trixie
     services:
       mongo:
-        image: mongo
+        image: mongo 
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
@@ -31,7 +31,7 @@ jobs:
         run: npm ci
       - name: build
         run: npm run build
-        
+
       - name: Check MongoDB connection
         run: nc -z mongo 27017
 
